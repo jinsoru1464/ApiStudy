@@ -4,6 +4,7 @@ package com.example.RestfulApi.controller;
 import com.example.RestfulApi.bean.User;
 import com.example.RestfulApi.dao.UserDaoService;
 import com.example.RestfulApi.exception.UserNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -36,7 +37,7 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
         User savedUser = service.save(user);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -45,5 +46,15 @@ public class UserController {
                 .toUri();
 
         return ResponseEntity.created(location).build();
+    }
+
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity deleteUser(@PathVariable int id) {
+        User deletedUser = service.deleteById(id);
+
+        if (deletedUser == null) {
+            throw new UserNotFoundException(String.format("ID[%s] not found", id));
+        }
+        return ResponseEntity.noContent().build();
     }
 }
