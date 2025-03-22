@@ -1,0 +1,31 @@
+logging:
+  level:
+    org.springframework: DEBUG
+
+spring:
+  messages:
+    basename: messages
+
+    ### Swagger ###
+springdoc:
+  packages-to-scan: com.example.RestfulApi.controller # 컨트롤러 가져오기
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+   path: /api-docs/
+   disable-swagger-default-url: true
+   display-request-duration: true
+   operations-sorter: method
+
+
+
+#  security:
+#    user:
+#      name: username
+#      password: passw0rd
+
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
